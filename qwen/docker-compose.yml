@@ -1,0 +1,29 @@
+---
+
+services:
+  vllm-api:
+    build: .
+    container_name: vllm-2080ti
+    shm_size: 12g
+    ipc: host
+    ports:
+      - "8000:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - MODEL_PATH=${MODEL}
+      - TRITON_CACHE_DIR=/root/.triton/cache
+      - VLLM_CACHE_ROOT=/root/.cache/vllm
+      - OMP_NUM_THREADS=4
+    volumes:
+      - ~/models:/models
+      - ~/.cache/huggingface:/root/.cache/huggingface
+      - ~/.cache/triton:/root/.triton/cache
+      - ~/.cache/vllm:/root/.cache/vllm
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0', '1']
+              capabilities: [gpu]
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+---
+services:
+  whisper-api:
+    shm_size: '10g'
+    ipc: host
+    build: .
+    container_name: whisper-api
+    ports:
+      - "8001:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - WHISPER_MODEL=${WHISPER_MODEL}
+      - DIARIZE_MODEL=${DIARIZE_MODEL}
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0', '1']
+              capabilities: [gpu]
+    restart: unless-stopped
