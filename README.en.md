@@ -38,7 +38,6 @@ Both cards are exposed to the containers; tensor-parallel work is split across `
 ├── README.md                                ← Russian version
 ├── README.en.md                             ← you are here
 ├── kvm.xml                                  ← local libvirt VM profile with GPU passthrough
-├── proxy.py                                 ← local vLLM debug proxy
 ├── qwen/                                    ← LLM inference service
 │   ├── .env.example                         ← HF_TOKEN and MODEL presets
 │   ├── Dockerfile                           ← custom sm75 + CUDA 13 vLLM build
@@ -56,7 +55,6 @@ Two sibling services, each a self-contained Docker build. They share the same tw
 ## Helper files
 
 - **`kvm.xml`** — a local libvirt profile for the `ubuntu26.04` VM: Ubuntu 26.04, 24 GB RAM, 6 statically pinned vCPUs, passthrough of both RTX 2080 Ti GPUs (8 PCI functions) and the model disk `MODEL.qcow2`. This is a host VM profile, not a Docker service.
-- **`proxy.py`** — a minimal HTTP proxy on `0.0.0.0:8080` that forwards `GET`/`POST` to `http://ubuntu26:8000` (vLLM inside the VM) and prints request/response bodies on `400 Bad Request`. Useful for debugging OpenCode-like clients; requires `requests`.
 
 ## What's built and how
 

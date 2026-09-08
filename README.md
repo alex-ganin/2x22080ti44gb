@@ -38,7 +38,6 @@
 ├── README.md                                ← вы здесь (рус.)
 ├── README.en.md                             ← английская версия
 ├── kvm.xml                                  ← локальный libvirt-профиль ВМ с GPU passthrough
-├── proxy.py                                 ← отладочный HTTP-прокси к vLLM
 ├── qwen/                                    ← сервис LLM-вывода
 │   ├── .env.example                         ← HF_TOKEN и пресеты MODEL
 │   ├── Dockerfile                           ← кастомная sm75 + CUDA 13 сборка vLLM
@@ -56,7 +55,6 @@
 ## Вспомогательные файлы
 
 - **`kvm.xml`** — локальный libvirt-профиль ВМ `ubuntu26.04`: Ubuntu 26.04, 24 GB RAM, 6 статически закреплённых vCPU, passthrough обеих RTX 2080 Ti (8 PCI-функций) и модельный диск `MODEL.qcow2`. Это хостовая ВМ, а не Docker-сервис.
-- **`proxy.py`** — минимальный HTTP-прокси на `0.0.0.0:8080`, пересылающий `GET`/`POST` в `http://ubuntu26:8000` (vLLM внутри ВМ) и печатающий тело запроса и ответа при `400 Bad Request`. Полезен для отладки клиентов вроде OpenCode; требует `requests`.
 
 ## Что построено и как
 
